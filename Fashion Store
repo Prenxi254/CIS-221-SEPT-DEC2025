@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fashion Store</title>
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --accent:#ff6b6b;
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.03);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071026 0%, #0a1930 100%);
+      color:#e6eef8;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      padding:28px 32px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      position:sticky; top:0; z-index:10;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:56px; height:56px; border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),#ff9a9a);
+      display:flex; align-items:center; justify-content:center; font-weight:700; color:#102033; font-size:20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    h1{margin:0; font-size:20px}
+    header .nav{display:flex; gap:12px; align-items:center}
+    .btn{
+      background:var(--accent); color:#102033; border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600;
+      box-shadow: 0 6px 18px rgba(255,107,107,0.12);
+    }
+    main{padding:28px 32px; max-width:1200px; margin:0 auto}
+    .hero{
+      display:flex; gap:20px; align-items:center; margin-bottom:22px; flex-wrap:wrap;
+    }
+    .hero-left{flex:1; min-width:260px}
+    .hero-right{flex:1; min-width:260px}
+    .hero-card{background:linear-gradient(180deg,var(--glass),var(--glass-2)); padding:18px; border-radius:14px; box-shadow: 0 8px 30px rgba(3,7,18,0.6);}
+    .search{display:flex; gap:10px; margin-top:12px}
+    .search input{flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+    .products{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; margin-top:18px}
+    .card{background:linear-gradient(180deg,#071021, #081429); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 10px 30px rgba(2,6,12,0.6);}
+    .card img{width:100%; height:160px; object-fit:cover; border-radius:8px}
+    .card h3{margin:8px 0 4px}
+    .meta{display:flex; justify-content:space-between; align-items:center; gap:8px}
+    .price{font-weight:700}
+    .stock{font-size:12px; color:var(--muted)}
+    .actions{display:flex; gap:8px; margin-top:10px}
+    .outline{background:transparent;border:1px solid rgba(255,255,255,0.06); padding:10px;border-radius:10px;color:var(--muted);cursor:pointer}
+    section.offers{margin-top:30px}
+    table{width:100%; border-collapse:collapse; background:linear-gradient(180deg,#071021,#081425); border-radius:10px; overflow:hidden}
+    table thead{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    th, td{padding:12px 14px; text-align:left; border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .benefits{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:18px}
+    .benefit{background:linear-gradient(180deg,#081426,#06101f); padding:14px; border-radius:10px}
+    footer{padding:18px 32px; margin-top:30px; border-top:1px solid rgba(255,255,255,0.03); text-align:center}
+    /* responsive */
+    @media (max-width:720px){.hero{flex-direction:column}.hero-right{order:-1}}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);display:inline-block}
+    .inventory-panel{margin-top:14px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#041223,#061429)}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">FS</div>
+      <div>
+        <h1>FASHION STORE</h1>
+        <div class="small"><b>Trendy • Affordable • Authentic</b></div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="tag"> Enjoy Free shipping over Ksh 3,000</div>
+      <button class="btn" id="viewInventoryBtn">View Inventory (Demo)</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="hero-left hero-card">
+        <h2>Welcome to Fashion Store</h2>
+        <p class="small">Explore curated fashion picks — from casual to formal. Click <strong>Buy</strong> to simulate a sale (demo mode).</p>
+        <div class="search">
+          <input type="search" id="search" placeholder="Search items, e.g., jacket, dress, shoes..." />
+          <button class="btn" id="searchBtn">Search</button>
+        </div>
+
+        <div class="inventory-panel" id="inventorySummary" style="display:none">
+          <strong>Inventory summary (demo):</strong>
+          <div id="inventoryText" class="small">No activity yet.</div>
+        </div>
+      </div>
+
+      <div class="hero-right hero-card">
+        <h3>Upcoming Sale Offers</h3>
+        <p class="small"> Hurry up don't miss these limited-time promotions.</p>
+        <div style="overflow:auto;margin-top:10px">
+          <table aria-label="Upcoming sales">
+            <thead>
+              <tr><th>Offer</th><th>Category</th><th>Start</th><th>End</th><th>Details</th></tr>
+            </thead>
+            <tbody id="offersBody">
+              <!-- JS will populate -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <h2>Featured Items</h2>
+      <div class="products" id="productsGrid">
+        <!-- JS populated product cards -->
+      </div>
+    </section>
+
+    <section class="offers">
+      <h2>Why buy from Fashion Store?</h2>
+      <div class="benefits">
+        <div class="benefit">
+          <h4>Quality Guaranteed</h4>
+          <p class="small">We source from trusted suppliers and inspect every item before it reaches you.</p>
+        </div>
+        <div class="benefit">
+          <h4>Affordable Prices</h4>
+          <p class="small">Competitive pricing and frequent offers so you get premium looks almost for free.</p>
+        </div>
+        <div class="benefit">
+          <h4>Hassle-free Returns</h4>
+          <p class="small">30-day returns and responsive customer support to keep you satisfied.</p>
+        </div>
+        <div class="benefit">
+          <h4>Secure Payments</h4>
+          <p class="small">Multiple payment options with secure checkout — your info stays safe.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>&copy; <span id="year"></span> Fashion Store. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Demo product data (Part 1 - static front-end). We'll add backend & DB in Part 2.
+    const products = [
+      {id:1, name:'Classic Denim Jacket', price:2499, stock:12, sold:0, img:'https://images.unsplash.com/photo-1520975910424-39ad3910f5f1?auto=format&fit=crop&w=800&q=60'},
+      {id:2, name:'Pleated Midi Dress', price:1999, stock:8, sold:0, img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=60'},
+      {id:3, name:'white sneakers', price:3499, stock:6, sold:0, img:'https://images.unsplash.com/photo-1528701800489-4760d5f22e04?auto=format&fit=crop&w=800&q=60'},
+      {id:4, name:'Formal Blazer', price:4299, stock:4, sold:0, img:'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=60'},
+      {id:5, name:'Boho Summer Top', price:999, stock:20, sold:0, img:'https://images.unsplash.com/photo-1520975698519-7f6d1f7a7b10?auto=format&fit=crop&w=800&q=60'}
+    ];
+
+    const offers = [
+      {offer:'Back-to-School Sale', category:'All Apparel', start:'2025-09-25', end:'2025-10-05', details:'Up to 30% off on selected items.'},
+      {offer:'Sneaker Weekend', category:'Shoes', start:'2025-10-02', end:'2025-10-04', details:'Buy 1 get 20% off the 2nd pair.'},
+      {offer:'Clearance Rack', category:'Last Season', start:'2025-10-01', end:'2025-10-10', details:'Flat 50% on clearance items while stocks last.'}
+    ];
+
+    // Utility: format currency
+    function formatKsh(n){ return 'Ksh ' + n.toLocaleString(); }
+
+    // Render offers
+    const offersBody = document.getElementById('offersBody');
+    offers.forEach(o=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><strong>${o.offer}</strong></td><td>${o.category}</td><td>${o.start}</td><td>${o.end}</td><td>${o.details}</td>`;
+      offersBody.appendChild(tr);
+    });
+
+    // Render products
+    const productsGrid = document.getElementById('productsGrid');
+    function renderProducts(filter=''){
+      productsGrid.innerHTML='';
+      const q = filter.trim().toLowerCase();
+      const list = products.filter(p=> p.name.toLowerCase().includes(q));
+      list.forEach(p=>{
+        const div = document.createElement('div'); div.className='card';
+        div.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <div class="meta"><div class="price">${formatKsh(p.price)}</div><div class="stock">${p.stock} in stock</div></div>
+          <p class="small">Sold: <span id="sold-${p.id}">${p.sold}</span></p>
+          <div class="actions">
+            <button class="btn" data-buy="${p.id}">Buy</button>
+            <button class="outline" data-info="${p.id}">Details</button>
+          </div>
+        `;
+        productsGrid.appendChild(div);
+      });
+    }
+    renderProducts();
+
+    // Search
+    document.getElementById('searchBtn').addEventListener('click', ()=>{
+      const q = document.getElementById('search').value;
+      renderProducts(q);
+    });
+    document.getElementById('search').addEventListener('keydown', (e)=>{ if(e.key==='Enter') document.getElementById('searchBtn').click(); });
+
+    // Buy button behaviour (demo, client-side only)
+    document.body.addEventListener('click', (e)=>{
+      const buy = e.target.getAttribute('data-buy');
+      const info = e.target.getAttribute('data-info');
+      if(buy){
+        const id = Number(buy); const p = products.find(x=>x.id===id);
+        if(p.stock<=0){ alert('Sorry, this item is out of stock.'); return; }
+        // simulate a sale
+        p.stock -= 1; p.sold += 1; p.revenue = (p.revenue||0) + p.price;
+        // update UI
+        renderProducts(document.getElementById('search').value);
+        updateInventoryPanel();
+        alert('Thank you! Your purchase was recorded (demo).');
+      }
+      if(info){
+        const id = Number(info); const p = products.find(x=>x.id===id);
+        alert(`${p.name}\nPrice: ${formatKsh(p.price)}\nIn stock: ${p.stock}\nSold: ${p.sold}`);
+      }
+    });
+
+    // Inventory summary (simple demo)
+    function updateInventoryPanel(){
+      const panel = document.getElementById('inventorySummary');
+      const text = document.getElementById('inventoryText');
+      const totalBought = products.reduce((s,p)=>s + (p.sold + p.stock),0); // demo: total ever in system
+      const totalSold = products.reduce((s,p)=>s + p.sold,0);
+      const totalStock = products.reduce((s,p)=>s + p.stock,0);
+      const totalRevenue = products.reduce((s,p)=>s + (p.revenue||0),0);
+      text.innerHTML = `Total items ever added: <strong>${totalBought}</strong><br>
+                        Total sold: <strong>${totalSold}</strong><br>
+                        Remaining in stock: <strong>${totalStock}</strong><br>
+                        Total revenue (demo): <strong>${formatKsh(totalRevenue)}</strong>`;
+      panel.style.display='block';
+    }
+
+    document.getElementById('viewInventoryBtn').addEventListener('click', ()=>{
+      updateInventoryPanel();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Small accessibility nicety: lazy load images
+    document.querySelectorAll('img').forEach(img=> img.loading='lazy');
+
+  </script>
+</body>
+</html>
